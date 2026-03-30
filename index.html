@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AudioGen — AI Audiobook Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ─────────────────────────────────
+       NAV
+       ───────────────────────────────── -->
+  <nav class="nav">
+    <a class="nav-brand" href="#">
+      <div class="nav-logo-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+          <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+          <line x1="12" y1="19" x2="12" y2="22"/>
+          <line x1="8" y1="22" x2="16" y2="22"/>
+        </svg>
+      </div>
+      <span class="nav-wordmark">AudioGen</span>
+    </a>
+    <div class="nav-right">
+      <span class="nav-chip">AI Studio</span>
+    </div>
+  </nav>
+
+  <!-- ─────────────────────────────────
+       HERO
+       ───────────────────────────────── -->
+  <header class="hero">
+    <p class="hero-eyebrow">
+      <span class="eyebrow-dot"></span>
+      Text to Speech · Powered by AI
+    </p>
+    <h1 class="hero-title">AI Audiobook Generator <span class="hero-emoji">🎧</span></h1>
+    <p class="hero-sub">Convert any text into natural-sounding audio in seconds</p>
+  </header>
+
+  <!-- ─────────────────────────────────
+       APP GRID (two panels)
+       ───────────────────────────────── -->
+  <div class="app-wrap">
+    <div class="app-grid" id="appGrid">
+
+      <!-- ── LEFT: Input Panel ─────── -->
+      <section class="panel" id="inputPanel">
+
+        <div class="panel-topbar">
+          <div class="step-badge">
+            <span class="step-num">01</span>
+            <span class="step-text">Your Text</span>
+          </div>
+          <output class="char-pill" id="charCount" for="textInput">0</output>
+        </div>
+
+        <textarea
+          id="textInput"
+          class="studio-ta"
+          placeholder="Paste your article, story, or any text here…&#10;&#10;The AI will convert it into a natural-sounding audiobook."
+          rows="11"
+          spellcheck="true"
+          aria-label="Text input for audio generation"
+        ></textarea>
+
+        <div class="ta-footer">
+          <span class="est-dur" id="estDur">≈ 0 min audio</span>
+          <span class="kbd-hint">⌘ + ↵ to generate</span>
+        </div>
+
+        <!-- Error bar -->
+        <div class="err-bar" id="errBar" hidden>
+          <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+          </svg>
+          <span id="errMsg">Please enter some text before generating.</span>
+        </div>
+
+        <button class="btn-generate" id="generateBtn" onclick="generateAudio()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <polygon points="5 3 19 12 5 21 5 3"/>
+          </svg>
+          Generate Audio
+        </button>
+
+      </section>
+
+      <!-- ── RIGHT: Player Panel ────── -->
+      <section class="panel panel-player" id="playerPanel">
+
+        <!-- Empty state -->
+        <div class="empty-state" id="emptyState">
+          <div class="empty-waveform" aria-hidden="true" id="emptyWave"></div>
+          <p class="empty-title">Your audio appears here</p>
+          <p class="empty-sub">Generate audio from the text panel to start listening</p>
+        </div>
+
+        <!-- Loading -->
+        <div class="loading-wrap" id="loadingWrap" hidden>
+          <div class="spinner-ring-wrap" aria-hidden="true">
+            <div class="sr sr-a"></div>
+            <div class="sr sr-b"></div>
+            <div class="sr sr-c"></div>
+            <div class="sr-dot"></div>
+          </div>
+          <p class="load-title">Generating audio…</p>
+          <p class="load-sub">AI is synthesizing your text</p>
+          <div class="load-prog"><div class="load-prog-fill"></div></div>
+        </div>
+
+        <!-- Player -->
+        <div class="player-ui" id="playerUI" hidden>
+
+          <!-- Cover art + track info -->
+          <div class="player-head">
+            <div class="cover" id="coverArt" aria-hidden="true">
+              <svg class="cover-mic" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="1.5">
+                <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                <line x1="12" y1="19" x2="12" y2="22"/>
+                <line x1="8" y1="22" x2="16" y2="22"/>
+              </svg>
+            </div>
+            <div class="track-details">
+              <p class="track-title" id="trackTitle">Generated Audiobook</p>
+              <p class="track-by">AI Voice &middot; Neural TTS</p>
+              <div class="ready-chip" role="status" aria-live="polite">
+                <span class="ready-pulse" aria-hidden="true"></span>
+                Your audiobook is ready 🎉
+              </div>
+            </div>
+          </div>
+
+          <!-- Waveform seek -->
+          <div class="wf-section">
+            <div
+              class="waveform" id="waveform"
+              role="slider" tabindex="0"
+              aria-label="Audio seek bar"
+              aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"
+              onclick="onWfClick(event)"
+              onkeydown="onWfKey(event)"
+            >
+              <!-- bars injected by JS -->
+            </div>
+            <div class="wf-times">
+              <time class="wf-time" id="timeCurrent">0:00</time>
+              <time class="wf-time" id="timeTotal">0:00</time>
+            </div>
+          </div>
+
+          <!-- Play controls -->
+          <div class="play-row">
+            <button class="ctrl-skip" onclick="rewindAudio()" aria-label="Rewind 10 seconds">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2.5 2v6h6M2.66 15.57a10 10 0 1 0 .57-4.3"/></svg>
+              <span>10</span>
+            </button>
+
+            <button class="ctrl-main" id="btnPlay" onclick="togglePlay()" aria-label="Play">
+              <svg id="icoPlay" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+              <svg id="icoPause" viewBox="0 0 24 24" fill="currentColor" style="display:none"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
+            </button>
+
+            <button class="ctrl-skip" onclick="forwardAudio()" aria-label="Forward 10 seconds">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-4.3"/></svg>
+              <span>10</span>
+            </button>
+          </div>
+
+          <!-- Volume + speed -->
+          <div class="aux-row">
+            <div class="vol-row">
+              <button class="mute-btn" id="btnMute" onclick="toggleMute()" aria-label="Toggle mute">
+                <svg id="icoVol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07M19.07 4.93a10 10 0 0 1 0 14.14"/>
+                </svg>
+                <svg id="icoMute" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                  <line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>
+                </svg>
+              </button>
+              <input class="vol-range" id="volSlider" type="range" min="0" max="1" step="0.02" value="1"
+                     aria-label="Volume" oninput="setVolume(this.value)" />
+            </div>
+            <div class="speed-row" role="group" aria-label="Playback speed">
+              <button class="sp" onclick="setSpeed(0.75,this)">0.75×</button>
+              <button class="sp sp-on" onclick="setSpeed(1,this)">1×</button>
+              <button class="sp" onclick="setSpeed(1.25,this)">1.25×</button>
+              <button class="sp" onclick="setSpeed(1.5,this)">1.5×</button>
+              <button class="sp" onclick="setSpeed(2,this)">2×</button>
+            </div>
+          </div>
+
+          <hr class="pl-divider" />
+
+          <div class="pl-actions">
+            <button class="pl-act pl-dl" id="btnDownload">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download MP3
+            </button>
+            <button class="pl-act pl-new" onclick="resetGenerator()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.75"/></svg>
+              New Text
+            </button>
+          </div>
+
+        </div><!-- /player-ui -->
+      </section><!-- /right panel -->
+
+    </div><!-- /app-grid -->
+  </div><!-- /app-wrap -->
+
+  <footer class="site-footer">
+    <p>AudioGen &mdash; AI Audiobook Generator &middot; Neural TTS Engine</p>
+  </footer>
+
+  <audio id="audioEl" preload="auto"></audio>
+  <script src="script.js"></script>
+</body>
+</html>
