@@ -8,31 +8,31 @@
 
 /* ── Tokens ─────────────────────────────────────────────── */
 :root {
-  /* Layered dark surfaces (like Spotify/SoundCloud) */
-  --bg:        #0b0b10;
-  --surface:   #111118;
-  --surface-2: #18181f;
-  --surface-3: #222230;
-  --lifted:    #2a2a38;
+  /* Layered dark surfaces — deep teal-forest */
+  --bg:        #091a16;
+  --surface:   #0f2420;
+  --surface-2: #162e29;
+  --surface-3: #1e3d36;
+  --lifted:    #264e45;
 
   /* Borders */
   --b1: rgba(255,255,255,0.06);
   --b2: rgba(255,255,255,0.1);
   --b3: rgba(255,255,255,0.16);
 
-  /* Brand */
-  --violet:    #8b5cf6;
-  --violet-d:  #7c3aed;
-  --blue:      #3b82f6;
-  --violet-lt: #a78bfa;
+  /* Brand — green palette */
+  --violet:    #10b981;  /* emerald-500: primary */
+  --violet-d:  #047857;  /* emerald-700: dark */
+  --blue:      #06b6d4;  /* cyan-500: accent */
+  --violet-lt: #34d399;  /* emerald-400: light */
   --green:     #10b981;
   --red:       #ef4444;
   --orange:    #f97316;
 
   /* Gradients */
-  --grad:        linear-gradient(135deg, #8b5cf6, #3b82f6);
-  --grad-warm:   linear-gradient(135deg, #8b5cf6, #ec4899);
-  --grad-text:   linear-gradient(120deg, #e2e8f0 10%, #a78bfa 55%, #60a5fa 100%);
+  --grad:        linear-gradient(135deg, #047857, #10b981);
+  --grad-warm:   linear-gradient(135deg, #10b981, #06b6d4);
+  --grad-text:   linear-gradient(120deg, #ecfdf5 15%, #34d399 55%, #06b6d4 100%);
 
   /* Typography */
   --font:  'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -53,8 +53,8 @@
   /* Shadows */
   --sh:     0 20px 60px rgba(0,0,0,0.6);
   --sh-sm:  0 4px 16px rgba(0,0,0,0.4);
-  --sh-btn: 0 6px 24px rgba(139,92,246,0.4);
-  --sh-play:0 8px 32px rgba(139,92,246,0.55);
+  --sh-btn: 0 6px 24px rgba(16,185,129,0.4);
+  --sh-play:0 8px 32px rgba(16,185,129,0.55);
 
   /* Transitions */
   --t:        all 0.22s cubic-bezier(0.4,0,0.2,1);
@@ -70,8 +70,8 @@ body {
   background-color: var(--bg);
   /* Subtle radial tint */
   background-image:
-    radial-gradient(ellipse 70% 50% at 15% 10%, rgba(139,92,246,0.1) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 40% at 85% 85%, rgba(59,130,246,0.08) 0%, transparent 55%);
+    radial-gradient(ellipse 70% 50% at 15% 10%, rgba(16,185,129,0.12) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 40% at 85% 85%, rgba(6,182,212,0.08) 0%, transparent 50%);
   color: var(--t1);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
@@ -89,7 +89,7 @@ body {
   justify-content: space-between;
   height: 58px;
   padding: 0 28px;
-  background: rgba(11,11,16,0.85);
+  background: rgba(9,26,22,0.9);
   border-bottom: 1px solid var(--b1);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -108,7 +108,7 @@ body {
   background: var(--grad);
   border-radius: 9px;
   display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 4px 14px rgba(139,92,246,0.45);
+  box-shadow: 0 4px 14px rgba(16,185,129,0.45);
   flex-shrink: 0;
 }
 .nav-logo-wrap svg { width: 18px; height: 18px; }
@@ -121,8 +121,8 @@ body {
 
 .nav-chip {
   padding: 4px 12px;
-  background: rgba(139,92,246,0.14);
-  border: 1px solid rgba(139,92,246,0.3);
+  background: rgba(16,185,129,0.14);
+  border: 1px solid rgba(16,185,129,0.3);
   border-radius: 999px;
   font-size: 11px;
   font-weight: 600;
@@ -242,8 +242,8 @@ body {
   font-family: var(--mono);
   font-weight: 700;
   color: var(--violet-lt);
-  background: rgba(139,92,246,0.15);
-  border: 1px solid rgba(139,92,246,0.25);
+  background: rgba(16,185,129,0.15);
+  border: 1px solid rgba(16,185,129,0.25);
   border-radius: 6px;
   padding: 2px 7px;
   letter-spacing: .5px;
@@ -286,9 +286,9 @@ body {
 }
 .studio-ta::placeholder { color: var(--t4); }
 .studio-ta:focus {
-  border-color: rgba(139,92,246,.5);
+  border-color: rgba(16,185,129,.5);
   background: rgba(24,24,31,.9);
-  box-shadow: 0 0 0 4px rgba(139,92,246,.1);
+  box-shadow: 0 0 0 4px rgba(16,185,129,.1);
 }
 
 .ta-footer {
@@ -352,7 +352,7 @@ body {
   opacity: 0;
   transition: var(--t-fast);
 }
-.btn-generate:hover        { transform:translateY(-2px); box-shadow:0 10px 30px rgba(139,92,246,.55); }
+.btn-generate:hover        { transform:translateY(-2px); box-shadow:0 10px 30px rgba(16,185,129,.55); }
 .btn-generate:hover::before{ opacity:1; }
 .btn-generate:active       { transform:translateY(0); }
 .btn-generate:disabled     { opacity:.58; cursor:not-allowed; transform:none !important; }
@@ -484,10 +484,10 @@ body {
   position: relative;
   overflow: hidden;
   /* animated gradient art */
-  background: linear-gradient(135deg, #4c1d95, #1e3a8a, #6d28d9, #1d4ed8);
+  background: linear-gradient(135deg, #052e16, #064e3b, #065f46, #047857);
   background-size: 300% 300%;
   animation: coverAnim 7s ease-in-out infinite;
-  box-shadow: 0 8px 28px rgba(139,92,246,.45);
+  box-shadow: 0 8px 28px rgba(16,185,129,.45);
 }
 .cover::after {
   content: '';
@@ -568,7 +568,7 @@ body {
   outline: none;
 }
 .waveform:focus-visible {
-  box-shadow: 0 0 0 3px rgba(139,92,246,.4);
+  box-shadow: 0 0 0 3px rgba(16,185,129,.4);
   border-radius: var(--r-sm);
 }
 
@@ -650,12 +650,12 @@ body {
   content: '';
   position: absolute; inset: -8px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(139,92,246,.35), transparent 70%);
+  background: radial-gradient(circle, rgba(16,185,129,.35), transparent 70%);
   opacity: 0;
   z-index: -1;
   transition: var(--t);
 }
-.ctrl-main:hover        { transform:scale(1.1); box-shadow:0 12px 40px rgba(139,92,246,.65); }
+.ctrl-main:hover        { transform:scale(1.1); box-shadow:0 12px 40px rgba(16,185,129,.65); }
 .ctrl-main:hover::after { opacity:1; }
 .ctrl-main:active       { transform:scale(.93); }
 
@@ -723,7 +723,7 @@ body {
   white-space: nowrap;
 }
 .sp:hover { background:var(--surface-3); color:var(--t1); }
-.sp-on    { background:rgba(139,92,246,.2); border-color:rgba(139,92,246,.4); color:var(--violet-lt); }
+.sp-on    { background:rgba(16,185,129,.2); border-color:rgba(16,185,129,.4); color:var(--violet-lt); }
 
 /* ── Divider / actions ──────────────────────────────────── */
 .pl-divider {
@@ -782,7 +782,7 @@ body {
 ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,.16); }
 
 /* ── Selection ──────────────────────────────────────────── */
-::selection { background: rgba(139,92,246,.3); color: #f4f4f5; }
+::selection { background: rgba(16,185,129,.3); color: #f4f4f5; }
 
 /* ── Responsive ─────────────────────────────────────────── */
 @media (max-width: 760px) {
