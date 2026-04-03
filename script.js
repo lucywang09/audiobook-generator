@@ -5,7 +5,7 @@
 'use strict';
 
 // ── Config ──────────────────────────────────────────────
-const API_ENDPOINT  = 'https://audiobook-api-ezfwd4b3h5a8d2b7.centralus-01.azurewebsites.net/api/GenerateAudio';
+const API_ENDPOINT  = 'YOUR_FUNCTION_URL';
 const SEEK_SECS     = 10;
 const WF_BARS       = 72;   // waveform bar count
 const WORDS_PER_MIN = 150;  // avg reading speed for TTS estimate
